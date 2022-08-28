@@ -1,0 +1,59 @@
+{
+  "name": "zikix/zikix",
+  "description": "The Zikix Components package.",
+  "keywords": [
+    "support"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/elonniu/zikix",
+  "support": {
+    "issues": "https://github.com/zikix-com/zikix/issues",
+    "source": "https://github.com/zikix-com/zikix"
+  },
+  "authors": [
+    {
+      "name": "Elon",
+      "email": "elon.niu@gmail.com"
+    }
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Zikix\\Zikix\\ZikixServiceProvider"
+      ]
+    }
+  },
+  "require": {
+    "php": "^8.1",
+    "ext-xml": "*",
+    "ext-json": "*",
+    "ext-simplexml": "*",
+    "ext-curl": "*",
+    "ext-zip": "*",
+    "lokielse/aliyun-open-api-sls": "^1.0",
+    "alibabacloud/client": "^1.5",
+    "ymlluo/group-robot": "^1.1",
+    "spatie/laravel-sql-commenter": "^1.1",
+    "kra8/laravel-snowflake": "^2.1"
+  },
+  "require-dev": {
+    "laravel/framework": "^9",
+    "phpunit/phpunit": "^9.5.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "Zikix\\Zikix\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Zikix\\Zikix\\Test\\": "tests/"
+    }
+  },
+  "scripts": {
+    "fixer": "php-cs-fixer fix ./"
+  }
+}
