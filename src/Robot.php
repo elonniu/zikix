@@ -55,9 +55,11 @@ class Robot
 
     /**
      * @param array $content
+     * @return array
      */
-    public static function markdown(array $content): void
+    public static function markdown(array $content): array
     {
+        $results = [];
         $data = Context::get();
 
         foreach ($content as $k => $v) {
@@ -73,7 +75,7 @@ class Robot
         if ($qy_key) {
             $qy_secret = config('zikix.qy_secret', '');
             $robot     = new GroupRobot();
-            $robot->markdown(self::getMarkdownString($data))
+            $results[] = $robot->markdown(self::getMarkdownString($data))
                   ->cc('wechat', "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$qy_key", $qy_secret, 'wx_1')
                   ->send();
         }
@@ -82,32 +84,38 @@ class Robot
         if ($feishu_key) {
             $feishu_secret = config('zikix.feishu_secret', '');
             $robot         = new GroupRobot();
-            $robot->markdown(self::getFeishuMarkdownString($data))
+            $results[] = $robot->markdown(self::getFeishuMarkdownString($data))
                   ->cc('feishu', "https://open.feishu.cn/open-apis/bot/v2/hook/$feishu_key", $feishu_secret, 'feishu1')
                   ->send();
         }
 
+        return $results;
     }
 
     /**
      * @param string $text
+     * @return array
      */
-    public static function text(string $text): void
+    public static function text(string $text): array
     {
+        $results = [];
+
         // https://packagist.org/packages/ymlluo/group-robot
         $qy_key    = config('zikix.qy_key');
         $qy_secret = config('zikix.qy_secret', '');
         if ($qy_key) {
             $robot = new GroupRobot();
-            $robot->text($text)->cc('wechat', "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$qy_key", $qy_secret, 'wx_1')->send();
+            $results[] = $robot->text($text)->cc('wechat', "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$qy_key", $qy_secret, 'wx_1')->send();
         }
 
         $feishu_key    = config('zikix.feishu_key');
         $feishu_secret = config('zikix.feishu_secret', '');
         if ($feishu_key) {
             $robot = new GroupRobot();
-            $robot->text($text)->cc('feishu', "https://open.feishu.cn/open-apis/bot/v2/hook/$feishu_key", $feishu_secret, 'feishu1')->send();
+            $results[] = $robot->text($text)->cc('feishu', "https://open.feishu.cn/open-apis/bot/v2/hook/$feishu_key", $feishu_secret, 'feishu1')->send();
         }
+
+        return $results;
 
     }
 
